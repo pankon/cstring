@@ -41,6 +41,28 @@ typedef struct {
 #define decl_const_static_cstring_from_string(name, static_string) \
 	cstring_t name = {sizeof(static_string), sizeof(static_string) - 1, static_string}
 
+#define decl_new_cstring(name, string_size) \
+	char *_cstring_buf_##name = cstring_malloc(sizeof(cstring_t) + (size_t)string_size); \
+	cstring_t *name = (cstring_t *)_cstring_buf_##name; \
+	if (NULL != _cstring_buf_##name) { \
+		name->size = (size_t)string_size; \
+		name->length = 0; \
+		name->data = _cstring_buf_##name + sizeof(cstring_t); \
+	}
+
+#define decl_new_const_cstring(name, string_size) \
+	const char *_cstring_buf_##name = cstring_malloc(sizeof(cstring_t) + (size_t)string_size); \
+	const cstring_t *name = (const cstring_t *)_cstring_buf_##name; \
+	if (NULL != _cstring_buf_##name) { \
+		name->size = (size_t)string_size; \
+		name->length = 0; \
+		name->data = _cstring_buf_##name + sizeof(cstring_t); \
+	}
+
+
+#define free_cstring(cstring_ptr) cstring_free(cstring_ptr)
+
+
 #define c_strcpy(self, other) do { \
 		(self).length = MIN((self).size, (other).length); \
 		memcpy((self).data, (other).data, (self).length); \

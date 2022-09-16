@@ -6,6 +6,7 @@ int main(void) {
     decl_static_cstring(other, 10);
     decl_static_cstring(other_larger, 100);
     decl_static_cstring(other_much_larger, 10000);
+    decl_new_cstring(allocated_string, 100);
 
     printf("data: %s\n", c_str(string));
 
@@ -32,6 +33,11 @@ int main(void) {
         c_strcat(other_much_larger, other_larger);
         printf("other_much_larger data: %s (%zd)\n", ptr_c_str(&other_much_larger), ptr_c_strlen(&other_much_larger));
     }
+
+    ptr_c_strcat(allocated_string, &other_larger);
+    printf("allocated_string data: %s (%zd)\n", ptr_c_str(allocated_string), ptr_c_strlen(allocated_string));
+
+    free_cstring(allocated_string);
     
     return 0;
 }
