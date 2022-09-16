@@ -42,12 +42,12 @@ typedef struct {
 	cstring_t name = {sizeof(static_string), sizeof(static_string) - 1, static_string}
 
 #define c_strcpy(self, other) do { \
-		(self).length = MIN((self).size, (other).size); \
+		(self).length = MIN((self).size, (other).length); \
 		memcpy((self).data, (other).data, (self).length); \
 	} while (0)
 
 #define ptr_c_strcpy(self, other) do { \
-		(self)->length = MIN((self)->size, (other)->size); \
+		(self)->length = MIN((self)->size, (other)->length); \
 		memcpy((self)->data, (other)->data, (self)->length); \
 	} while (0)
 
